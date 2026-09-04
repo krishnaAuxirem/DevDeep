@@ -1,0 +1,296 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 224 71% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71% 8%;
+    --primary: 244 63% 34%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217 91% 46%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 214 32% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 189 94% 43%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 41%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 244 63% 34%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: #F8FAFC;
+    color: #0F172A;
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* ───────────────────────────────────────────────
+   APP SHELL COMPONENTS (Light Theme)
+   ─────────────────────────────────────────────── */
+@layer components {
+
+  /* ── Cards ── */
+  .dd-card {
+    @apply bg-white border border-slate-200 rounded-md shadow-card;
+  }
+  .dd-card-hover {
+    @apply dd-card hover:border-slate-300 hover:shadow-card-hover transition-all duration-200;
+  }
+  .dd-surface {
+    @apply bg-slate-50 border border-slate-200 rounded-md;
+  }
+  .dd-surface-inset {
+    @apply bg-slate-100 border border-slate-200 rounded-sm;
+  }
+
+  /* ── Status Chips / Badges ── */
+  .dd-chip {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold leading-none;
+    height: 22px;
+  }
+  .dd-chip-completed {
+    @apply dd-chip bg-emerald-50 text-emerald-700 border border-emerald-200;
+  }
+  .dd-chip-active {
+    @apply dd-chip bg-emerald-50 text-emerald-700 border border-emerald-200;
+  }
+  .dd-chip-pending {
+    @apply dd-chip bg-amber-50 text-amber-700 border border-amber-200;
+  }
+  .dd-chip-ai {
+    @apply dd-chip bg-cyan-50 text-cyan-700 border border-cyan-200;
+  }
+  .dd-chip-error {
+    @apply dd-chip bg-red-50 text-red-700 border border-red-200;
+  }
+  .dd-chip-indigo {
+    @apply dd-chip bg-indigo-50 text-indigo-700 border border-indigo-200;
+  }
+  .dd-chip-blue {
+    @apply dd-chip bg-blue-50 text-blue-700 border border-blue-200;
+  }
+  .dd-chip-purple {
+    @apply dd-chip bg-purple-50 text-purple-700 border border-purple-200;
+  }
+  .dd-chip-slate {
+    @apply dd-chip bg-slate-100 text-slate-600 border border-slate-200;
+  }
+
+  /* Legacy badge aliases (for compat) */
+  .dd-badge { @apply dd-chip; }
+  .dd-badge-cyan { @apply dd-chip-ai; }
+  .dd-badge-blue { @apply dd-chip-blue; }
+  .dd-badge-green { @apply dd-chip-completed; }
+  .dd-badge-amber { @apply dd-chip-pending; }
+  .dd-badge-red { @apply dd-chip-error; }
+  .dd-badge-purple { @apply dd-chip-purple; }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-indigo-900 hover:bg-indigo-950
+           text-white text-sm font-semibold rounded-sm transition-all duration-150
+           cursor-pointer active:scale-[0.99] select-none;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-eblue-600 hover:bg-eblue-700
+           text-white text-sm font-semibold rounded-sm transition-all duration-150
+           cursor-pointer active:scale-[0.99] select-none;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-3 py-2 bg-white hover:bg-slate-100
+           border border-slate-200 hover:border-slate-300
+           text-slate-600 hover:text-slate-900 text-sm font-medium rounded-sm
+           transition-all duration-150 cursor-pointer select-none;
+  }
+  .btn-ai {
+    @apply inline-flex items-center gap-2 px-3 py-2
+           text-cyan-700 text-sm font-semibold rounded-sm
+           border border-cyan-200 hover:border-cyan-400
+           transition-all duration-150 cursor-pointer select-none;
+    background: rgba(6,182,212,0.08);
+  }
+  .btn-ai:hover {
+    background: rgba(6,182,212,0.14);
+  }
+  .btn-danger {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700
+           text-white text-sm font-semibold rounded-sm transition-all duration-150 cursor-pointer;
+  }
+
+  /* ── Form elements ── */
+  .dd-input {
+    @apply w-full h-9 px-3 bg-white border border-slate-300 rounded-sm text-sm text-slate-900
+           placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-eblue-600/30
+           focus:border-eblue-600 transition-colors;
+  }
+
+  /* ── Progress bars ── */
+  .progress-track {
+    @apply h-1.5 bg-slate-200 rounded-full overflow-hidden;
+  }
+  .progress-fill {
+    @apply h-full bg-indigo-900 rounded-full transition-all duration-500;
+  }
+  .progress-fill-blue {
+    @apply h-full bg-eblue-600 rounded-full transition-all duration-500;
+  }
+  .progress-fill-cyan {
+    @apply h-full bg-ai rounded-full transition-all duration-500;
+  }
+  .progress-fill-emerald {
+    @apply h-full bg-success rounded-full transition-all duration-500;
+  }
+
+  /* Legacy progress aliases */
+  .progress-bar { @apply progress-track; }
+
+  /* ── Navigation ── */
+  .sidebar-link {
+    @apply flex items-center gap-2.5 px-3 py-2 rounded-sm text-sm font-medium
+           text-slate-600 hover:text-slate-900 hover:bg-slate-100
+           transition-all duration-150 cursor-pointer;
+  }
+  .sidebar-link-active {
+    @apply flex items-center gap-2.5 px-3 py-2 rounded-sm text-sm font-semibold
+           text-white bg-indigo-900 cursor-pointer;
+  }
+  .sidebar-section {
+    @apply text-[10px] font-bold tracking-widest text-slate-400 uppercase px-3 py-1.5 mt-3 first:mt-0;
+  }
+
+  /* ── Stat cards ── */
+  .stat-card {
+    @apply dd-card p-4 flex flex-col gap-1;
+  }
+
+  /* ── IDE / Dark code shells ── */
+  .ide-shell {
+    background: #020617;
+    border: 1px solid #1E293B;
+    border-radius: 8px;
+    color: #F1F5F9;
+    font-family: "JetBrains Mono", "Fira Code", monospace;
+  }
+  .ide-panel {
+    background: #0F172A;
+    border-color: #1E293B;
+  }
+  .ide-raised {
+    background: #1E293B;
+  }
+  .code-block {
+    @apply ide-shell text-sm p-4 overflow-x-auto;
+  }
+
+  /* ── Diff view ── */
+  .diff-added {
+    background: rgba(16, 185, 129, 0.06);
+    border-left: 2px solid #10B981;
+  }
+  .diff-removed {
+    background: rgba(186, 26, 26, 0.06);
+    border-left: 2px solid #BA1A1A;
+  }
+  .diff-context {
+    @apply text-slate-500;
+  }
+
+  /* ── Heatmap cells ── */
+  .heatmap-cell {
+    @apply w-3 h-3 rounded-sm;
+  }
+
+  /* ── AI glow accent ── */
+  .ai-glow {
+    box-shadow: 0 0 20px rgba(6,182,212,0.2);
+  }
+  .glow-indigo {
+    box-shadow: 0 4px 20px rgba(49,46,129,0.18);
+  }
+
+  /* ── Gradient border card ── */
+  .gradient-border {
+    position: relative;
+    background: linear-gradient(white, white) padding-box,
+      linear-gradient(135deg, #312E81, #2563EB, #06B6D4) border-box;
+    border: 1.5px solid transparent;
+    border-radius: 12px;
+  }
+}
+
+/* ───────────────────────────────────────────────
+   IDE Syntax Colors (dark panels only)
+   ─────────────────────────────────────────────── */
+.syn-keyword  { color: #38BDF8; }
+.syn-func     { color: #818CF8; }
+.syn-type     { color: #7DD3FC; }
+.syn-string   { color: #34D399; }
+.syn-comment  { color: #64748B; font-style: italic; }
+.syn-number   { color: #FB923C; }
+.syn-operator { color: #F1F5F9; }
+.syn-ident    { color: #F1F5F9; }
+.syn-pkg      { color: #C084FC; }
+
+/* ───────────────────────────────────────────────
+   Tailwind arbitrary value helpers for brand colors
+   ─────────────────────────────────────────────── */
+.text-ai { color: #06B6D4; }
+.text-ai-dark { color: #0891B2; }
+.text-eblue-600 { color: #2563EB; }
+.text-eblue-700 { color: #1D4ED8; }
+.bg-ai { background-color: #06B6D4; }
+.bg-ai-dark { background-color: #0891B2; }
+.bg-eblue-600 { background-color: #2563EB; }
+.bg-eblue-700 { background-color: #1D4ED8; }
+.hover\:bg-eblue-700:hover { background-color: #1D4ED8; }
+.bg-success { background-color: #10B981; }
+.text-success { color: #10B981; }
+.hover\:bg-emerald-600:hover { background-color: #059669; }
+.text-warning { color: #F59E0B; }
+.bg-warning { background-color: #F59E0B; }
+.text-danger { color: #BA1A1A; }
+.bg-danger { background-color: #BA1A1A; }
+.bg-indigo-900 { background-color: #312E81; }
+.bg-indigo-950 { background-color: #1E1B4B; }
+.hover\:bg-indigo-950:hover { background-color: #1E1B4B; }
+.text-indigo-900 { color: #312E81; }
+.text-indigo-700 { color: #4338CA; }
+.bg-indigo-50 { background-color: #EEF2FF; }
+.border-indigo-900 { border-color: #312E81; }
+.shadow-indigo { box-shadow: 0 4px 24px rgba(49,46,129,0.14); }
+.shadow-card { box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04); }
+.shadow-card-hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04); }
+.ring-eblue-600 { --tw-ring-color: #2563EB; }
+
+/* ───────────────────────────────────────────────
+   Custom scrollbar
+   ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+/* Dark panel scrollbars */
+.ide-shell::-webkit-scrollbar-track,
+.ide-panel::-webkit-scrollbar-track { background: #020617; }
+.ide-shell::-webkit-scrollbar-thumb,
+.ide-panel::-webkit-scrollbar-thumb { background: #334155; }
