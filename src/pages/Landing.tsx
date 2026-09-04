@@ -7,6 +7,10 @@ import {
 } from "lucide-react";
 import { PRICING_PLANS, MENTORS, CHALLENGES, LEARNING_PATHS } from "@/constants/data";
 import heroImg from "@/assets/hero-bg.jpg";
+import PublicNavbar from "@/components/layout/PublicNavbar";
+import Footer from "@/components/layout/Footer";
+import ScrollToTopButton from "@/components/layout/ScrollToTopButton";
+import { toast } from "sonner";
 
 const FEATURES = [
   {
@@ -80,47 +84,12 @@ const FAQS = [
 export default function Landing() {
   const navigate = useNavigate();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [priceINR, setPriceINR] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isYearly, setIsYearly] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 h-14 bg-white/90 backdrop-blur-md border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-6 h-full flex items-center gap-6">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-md bg-indigo-900 flex items-center justify-center">
-              <Zap size={15} className="text-white" />
-            </div>
-            <span className="text-indigo-900 font-bold text-lg tracking-tight">DevDeep</span>
-          </div>
-          <div className="hidden md:flex items-center gap-5 ml-4">
-            {["Learning Paths", "Challenges", "Code Review", "Pricing"].map(item => (
-              <button key={item} className="text-slate-500 hover:text-slate-900 text-sm font-medium transition-colors">{item}</button>
-            ))}
-          </div>
-          <div className="flex-1" />
-          <div className="flex items-center gap-3">
-            <button onClick={() => navigate("/login")} className="text-slate-500 hover:text-slate-900 text-sm font-medium px-3 py-1.5 transition-colors hidden md:block">
-              Sign In
-            </button>
-            <button onClick={() => navigate("/register")} className="btn-primary text-sm py-2">
-              Start Free <ChevronRight size={14} />
-            </button>
-            <button className="md:hidden btn-ghost p-2" onClick={() => setMobileMenuOpen(v => !v)}>
-              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
-            </button>
-          </div>
-        </div>
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-slate-200 px-6 py-4 space-y-2 shadow-card">
-            {["Learning Paths", "Challenges", "Code Review", "Pricing"].map(item => (
-              <button key={item} className="block w-full text-left text-slate-700 text-sm py-2 hover:text-indigo-900 transition-colors">{item}</button>
-            ))}
-            <button onClick={() => navigate("/login")} className="block w-full text-left text-slate-700 text-sm py-2 hover:text-indigo-900 transition-colors">Sign In</button>
-          </div>
-        )}
-      </nav>
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
+      {/* Global Navigation (logged-out) */}
+      <PublicNavbar />
 
       {/* Hero */}
       <section className="relative pt-14 min-h-screen flex items-center overflow-hidden">
@@ -202,7 +171,7 @@ export default function Landing() {
                 <button onClick={() => navigate("/register")} className="btn-primary text-xs py-1.5">
                   <Play size={12} /> Resume Sandbox
                 </button>
-                <button className="btn-ghost text-xs py-1.5">Open Editor</button>
+                <button onClick={() => navigate("/challenge/c1")} className="btn-ghost text-xs py-1.5">Open Editor</button>
                 <div className="ml-auto flex items-center gap-2 text-xs text-slate-400">
                   <span>Also enrolled:</span>
                   <span className="text-ai-dark font-mono">Full-Stack TS</span>
@@ -256,7 +225,7 @@ export default function Landing() {
             <p className="text-ai-dark text-xs font-semibold uppercase tracking-widest mb-1">Curriculum</p>
             <h2 className="text-slate-900 text-3xl font-bold tracking-tight">Structured Learning Paths</h2>
           </div>
-          <button className="btn-ghost">View All <ChevronRight size={14} /></button>
+          <button onClick={() => navigate("/learning")} className="btn-ghost">View All <ChevronRight size={14} /></button>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           {LEARNING_PATHS.map(lp => (
@@ -343,64 +312,130 @@ export default function Landing() {
                 ))}
               </div>
               {m.nextSession && <p className="text-slate-400 text-xs mb-3">📅 {m.nextSession}</p>}
-              <button className="btn-ghost w-full text-xs justify-center">
-                {m.available ? "Book Session" : "Join Waitlist"}
+              <button
+                onClick={() => {
+                  toast.success(`Booking session with ${m.name}`, {
+                    description: "Navigating to verified staff mentor reservation scheduler.",
+                  });
+                  navigate("/mentors");
+                }}
+                className="btn-ghost w-full text-xs justify-center"
+              >
+                {m.available ? "Book 1:1 Review (₹4,800)" : "Join Waitlist"}
               </button>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Pricing */}
+      {/* Pricing with INR Toggle */}
       <section className="max-w-7xl mx-auto px-6 py-16 border-t border-slate-200" id="pricing">
         <div className="text-center mb-10">
-          <p className="text-ai-dark text-xs font-semibold uppercase tracking-widest mb-2">Pricing</p>
+          <p className="text-ai-dark text-xs font-semibold uppercase tracking-widest mb-2 font-mono">INR Billing</p>
           <h2 className="text-slate-900 text-3xl font-bold tracking-tight mb-3">Invest in Your Engineering Career</h2>
-          <div className="flex items-center justify-center gap-3 mt-4">
-            <span className={`text-sm font-medium ${!priceINR ? "text-slate-900" : "text-slate-400"}`}>USD</span>
-            <button onClick={() => setPriceINR(v => !v)} className={`relative w-12 h-6 rounded-full transition-colors ${priceINR ? "bg-indigo-900" : "bg-slate-200"}`}>
-              <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform shadow ${priceINR ? "translate-x-7" : "translate-x-1"}`} />
+          <p className="text-slate-500 text-sm max-w-xl mx-auto mb-6">Transparent pricing with zero hidden fees. Cancel anytime with 1-click self-service.</p>
+
+          <div className="flex items-center justify-center gap-3">
+            <span className={`text-sm font-semibold ${!isYearly ? "text-slate-900" : "text-slate-400"}`}>Monthly</span>
+            <button
+              onClick={() => setIsYearly(!isYearly)}
+              className="w-12 h-6 rounded-full bg-indigo-900 p-0.5 transition-colors relative focus:outline-none"
+              aria-label="Toggle annual billing"
+            >
+              <div className={`w-5 h-5 bg-white rounded-full transition-transform shadow ${isYearly ? "translate-x-6" : "translate-x-0"}`} />
             </button>
-            <span className={`text-sm font-medium ${priceINR ? "text-slate-900" : "text-slate-400"}`}>INR ₹</span>
+            <span className={`text-sm font-semibold flex items-center gap-1.5 ${isYearly ? "text-slate-900" : "text-slate-400"}`}>
+              <span>Yearly</span>
+              <span className="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold">20% OFF</span>
+            </span>
           </div>
         </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {PRICING_PLANS.map(plan => (
-            <div
-              key={plan.name}
-              className={`rounded-xl p-6 transition-all relative ${plan.highlighted ? "gradient-border shadow-indigo" : "dd-card"}`}
-            >
-              {plan.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className={`dd-chip text-xs ${plan.highlighted ? "bg-indigo-900 text-white border-indigo-900" : "dd-chip-slate"}`}>
-                    {plan.badge}
-                  </span>
-                </div>
-              )}
-              <p className="text-slate-500 text-sm font-semibold mb-1">{plan.name}</p>
-              <div className="flex items-baseline gap-1 mb-1">
-                <span className="text-slate-900 font-bold text-4xl tracking-tight">
-                  {plan.price === 0 ? "Free" : priceINR ? `₹${plan.priceINR.toLocaleString("en-IN")}` : `$${plan.price}`}
-                </span>
-                {plan.price > 0 && <span className="text-slate-400 text-sm">/ {plan.period}</span>}
+
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {/* Free Tier */}
+          <div className="dd-card rounded-xl p-6 flex flex-col justify-between">
+            <div>
+              <p className="text-slate-500 text-xs font-mono font-bold uppercase mb-1">Explorer</p>
+              <h3 className="text-slate-900 font-bold text-lg mb-2">Developer Free</h3>
+              <div className="flex items-baseline gap-1 mb-2">
+                <span className="text-slate-900 font-bold text-4xl tracking-tight font-mono">₹0</span>
+                <span className="text-slate-400 text-xs">/ forever</span>
               </div>
-              <p className="text-slate-500 text-sm mb-5 leading-relaxed">{plan.description}</p>
+              <p className="text-slate-500 text-xs mb-5 leading-relaxed">Start your journey with 50 sandboxes/month and core algorithm tracks.</p>
               <button
                 onClick={() => navigate("/register")}
-                className={`w-full py-2.5 rounded-sm text-sm font-semibold mb-5 transition-all ${plan.highlighted ? "btn-primary justify-center" : "btn-ghost justify-center"}`}
+                className="btn-ghost w-full justify-center mb-5 font-semibold text-xs"
               >
-                {plan.price === 0 ? "Start Free" : "Get Started"} →
+                Start Free →
               </button>
-              <ul className="space-y-2.5">
-                {plan.features.map(f => (
-                  <li key={f} className="flex items-start gap-2.5 text-sm text-slate-600">
-                    <CheckCircle2 size={14} className="text-success shrink-0 mt-0.5" />
-                    {f}
-                  </li>
-                ))}
+              <ul className="space-y-2.5 text-xs text-slate-600">
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-success shrink-0" /> 50 cloud sandboxes / month</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-success shrink-0" /> 120 Algorithmic challenges</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-success shrink-0" /> Community discussions</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-success shrink-0" /> Public verified profile</li>
               </ul>
             </div>
-          ))}
+          </div>
+
+          {/* Pro Tier (Most Popular) */}
+          <div className="rounded-xl p-6 relative gradient-border shadow-indigo flex flex-col justify-between">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <span className="dd-chip text-xs bg-indigo-900 text-white border-indigo-900">
+                MOST POPULAR
+              </span>
+            </div>
+            <div>
+              <p className="text-indigo-700 text-xs font-mono font-bold uppercase mb-1">DEVDEEP PRO</p>
+              <h3 className="text-slate-900 font-bold text-lg mb-2">Pro Engineer</h3>
+              <div className="flex items-baseline gap-1 mb-2">
+                <span className="text-indigo-950 font-bold text-4xl tracking-tight font-mono">
+                  {isYearly ? "₹1,199" : "₹1,499"}
+                </span>
+                <span className="text-slate-400 text-xs">/ month</span>
+              </div>
+              <p className="text-slate-500 text-xs mb-5 leading-relaxed">Complete access to production architecture labs, unlimited AST reviews, and certs.</p>
+              <button
+                onClick={() => navigate("/register")}
+                className="btn-primary w-full justify-center mb-5 font-semibold text-xs"
+              >
+                Upgrade to Pro →
+              </button>
+              <ul className="space-y-2.5 text-xs text-slate-700 font-medium">
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-indigo-600 shrink-0" /> Unlimited AI Mentor v3.8 sessions</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-indigo-600 shrink-0" /> All 42 Production Labs & Repos</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-indigo-600 shrink-0" /> Cryptographic Skill Proofs</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-indigo-600 shrink-0" /> Full-speed container boot (4.1ms)</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-indigo-600 shrink-0" /> Career radar & job matching</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Staff Tier */}
+          <div className="dd-card rounded-xl p-6 flex flex-col justify-between">
+            <div>
+              <p className="text-slate-500 text-xs font-mono font-bold uppercase mb-1">CAREER COHORT</p>
+              <h3 className="text-slate-900 font-bold text-lg mb-2">Staff • 1:1</h3>
+              <div className="flex items-baseline gap-1 mb-2">
+                <span className="text-slate-900 font-bold text-4xl tracking-tight font-mono">
+                  {isYearly ? "₹3,199" : "₹3,999"}
+                </span>
+                <span className="text-slate-400 text-xs">/ month</span>
+              </div>
+              <p className="text-slate-500 text-xs mb-5 leading-relaxed">Direct human architectural mentorship + guaranteed fast-tracked job referrals.</p>
+              <button
+                onClick={() => navigate("/register")}
+                className="btn-ghost w-full justify-center mb-5 font-semibold text-xs"
+              >
+                Start Staff Cohort →
+              </button>
+              <ul className="space-y-2.5 text-xs text-slate-600">
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-success shrink-0" /> Everything in Pro</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-success shrink-0" /> 2x 1:1 Staff Mentor Calls / mo</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-success shrink-0" /> Verified Scout Scorecard</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-success shrink-0" /> Priority Tier 1 Referral Lane</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -446,42 +481,9 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white">
-        <div className="max-w-7xl mx-auto px-6 py-10">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-7 h-7 rounded-md bg-indigo-900 flex items-center justify-center">
-                  <Zap size={13} className="text-white" />
-                </div>
-                <span className="text-indigo-900 font-bold tracking-tight">DevDeep</span>
-              </div>
-              <p className="text-slate-400 text-sm leading-relaxed">The elite platform for engineers serious about reaching Staff+ and beyond.</p>
-            </div>
-            {[
-              { title: "Product", links: ["Learning Paths", "Challenges", "Code Review", "AI Mentor", "Portfolio"] },
-              { title: "Company", links: ["About", "Blog", "Careers", "Partners", "Press"] },
-              { title: "Resources", links: ["Documentation", "Community", "Status", "Terms", "Privacy"] },
-            ].map(col => (
-              <div key={col.title}>
-                <p className="text-slate-500 text-xs font-semibold uppercase tracking-widest mb-3">{col.title}</p>
-                <ul className="space-y-2">
-                  {col.links.map(l => (
-                    <li key={l}>
-                      <button className="text-slate-400 hover:text-slate-700 text-sm transition-colors">{l}</button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-          <div className="border-t border-slate-100 pt-6 flex items-center justify-between flex-wrap gap-3">
-            <p className="text-slate-400 text-sm">© 2026 DevDeep. All rights reserved.</p>
-            <p className="text-slate-400 text-sm">Built for engineers who ship at scale.</p>
-          </div>
-        </div>
-      </footer>
+      {/* Global Footer */}
+      <Footer />
+      <ScrollToTopButton />
     </div>
   );
 }

@@ -24,7 +24,7 @@ const MENTOR_STATS = [
   { label: "Total Sessions", value: "142", sub: "+8 this month", icon: <Video size={14} /> },
   { label: "Avg. Rating", value: "4.94", sub: "from 118 reviews", icon: <Star size={14} /> },
   { label: "Active Learners", value: "23", sub: "7 new this month", icon: <Users size={14} /> },
-  { label: "Revenue (month)", value: "$2,840", sub: "+$340 vs last", icon: <TrendingUp size={14} /> },
+  { label: "Revenue (month)", value: "₹2,35,000", sub: "+₹28,000 vs last", icon: <TrendingUp size={14} /> },
 ];
 
 export default function MentorDashboard() {

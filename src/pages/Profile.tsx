@@ -295,9 +295,9 @@ export default function Profile() {
                     </div>
                     <span className="text-ai-dark text-[10px] font-bold whitespace-nowrap">Staff / Principal</span>
                   </div>
-                  <p className="text-slate-400 text-xs mb-1">Q2 2025 · Compensation Target</p>
-                  <p className="text-slate-900 text-lg font-bold">$260k – $320k base</p>
-                  <p className="text-slate-500 text-xs">/ ₹75L – ₹95L INR</p>
+                  <p className="text-slate-400 text-xs mb-1">Q2 2026 · Compensation Target</p>
+                  <p className="text-slate-900 text-lg font-bold font-mono">₹75L – ₹95L INR</p>
+                  <p className="text-slate-500 text-xs">Verified Staff L7 Tier</p>
                   <div className="mt-3 p-2.5 bg-amber-50 border border-amber-200 rounded-md text-xs">
                     <div className="flex items-center gap-1 mb-1">
                       <Star size={11} className="text-warning" />
@@ -306,10 +306,16 @@ export default function Profile() {
                     <p className="text-slate-600">Profile reviewed by hiring leads at <span className="text-slate-900 font-medium">Stripe, Cloudflare, Datadog</span> in the last 48 hours.</p>
                   </div>
                   <div className="flex flex-col gap-2 mt-3">
-                    <button className="btn-primary w-full justify-center text-xs">
+                    <button
+                      onClick={() => toast.success("Contact request forwarded via DevDeep Verified Relay.")}
+                      className="btn-primary w-full justify-center text-xs"
+                    >
                       <ArrowUpRight size={12} /> Contact via Verified Relay
                     </button>
-                    <button className="btn-ghost w-full justify-center text-xs">
+                    <button
+                      onClick={() => toast.success("Technical Screen Scheduler opened.")}
+                      className="btn-ghost w-full justify-center text-xs"
+                    >
                       <Calendar size={12} /> Schedule Technical Screen
                     </button>
                   </div>

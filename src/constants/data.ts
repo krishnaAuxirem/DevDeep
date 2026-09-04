@@ -221,8 +221,8 @@ export const PRICING_PLANS: PricingPlan[] = [
   },
   {
     name: "Engineer",
-    price: 29,
-    priceINR: 2499,
+    price: 1499,
+    priceINR: 1499,
     period: "month",
     description: "Unlimited challenges, AI mentor access, and verified project portfolio.",
     features: [
@@ -239,8 +239,8 @@ export const PRICING_PLANS: PricingPlan[] = [
   },
   {
     name: "Staff",
-    price: 79,
-    priceINR: 6499,
+    price: 3999,
+    priceINR: 3999,
     period: "month",
     description: "Enterprise-grade features for engineers targeting Staff+ roles.",
     features: [

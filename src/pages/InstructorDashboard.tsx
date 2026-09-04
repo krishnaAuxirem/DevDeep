@@ -7,19 +7,20 @@ import {
 } from "lucide-react";
 import Sidebar from "@/components/layout/Sidebar";
 import TopNav from "@/components/layout/TopNav";
+import { IndianRupee } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
 const COURSES = [
-  { id: "c1", title: "Distributed Systems Engineering in Go", learners: 1240, rating: 4.8, revenue: "$18,420", status: "Published", progress: 100 },
-  { id: "c2", title: "Lock-Free Data Structures & Atomics", learners: 842, rating: 4.9, revenue: "$11,870", status: "Published", progress: 100 },
-  { id: "c3", title: "Database Internals: LSM Trees & B-Trees", learners: 0, rating: 0, revenue: "$0", status: "In Review", progress: 75 },
-  { id: "c4", title: "eBPF Performance Tracing in Linux", learners: 0, rating: 0, revenue: "$0", status: "Draft", progress: 30 },
+  { id: "c1", title: "Distributed Systems Engineering in Go", learners: 1240, rating: 4.8, revenue: "₹15,20,000", status: "Published", progress: 100 },
+  { id: "c2", title: "Lock-Free Data Structures & Atomics", learners: 842, rating: 4.9, revenue: "₹9,80,000", status: "Published", progress: 100 },
+  { id: "c3", title: "Database Internals: LSM Trees & B-Trees", learners: 0, rating: 0, revenue: "₹0", status: "In Review", progress: 75 },
+  { id: "c4", title: "eBPF Performance Tracing in Linux", learners: 0, rating: 0, revenue: "₹0", status: "Draft", progress: 30 },
 ];
 
 const INSTRUCTOR_STATS = [
   { label: "Total Learners", value: "2,082", sub: "+124 this month", icon: <Users size={14} />, color: "text-indigo-900" },
   { label: "Published Courses", value: "2", sub: "2 in pipeline", icon: <BookOpen size={14} />, color: "text-eblue-600" },
-  { label: "Monthly Revenue", value: "$1,860", sub: "+$340 vs last month", icon: <DollarSign size={14} />, color: "text-success" },
+  { label: "Monthly Revenue", value: "₹1,54,000", sub: "+₹28,000 vs last month", icon: <IndianRupee size={14} />, color: "text-success" },
   { label: "Avg. Course Rating", value: "4.85", sub: "from 492 reviews", icon: <Star size={14} />, color: "text-warning" },
 ];
 
@@ -179,19 +180,19 @@ export default function InstructorDashboard() {
                   <div className="space-y-4">
                     <div className="grid grid-cols-3 gap-3">
                       {[
-                        { label: "This Month", value: "$1,860", change: "+22%" },
-                        { label: "Last Month", value: "$1,520", change: "" },
-                        { label: "All Time", value: "$30,290", change: "" },
+                        { label: "This Month", value: "₹1,54,000", change: "+22%" },
+                        { label: "Last Month", value: "₹1,26,000", change: "" },
+                        { label: "All Time", value: "₹25,10,000", change: "" },
                       ].map(r => (
                         <div key={r.label} className="dd-surface p-4 rounded-md text-center">
                           <p className="text-slate-400 text-xs mb-1">{r.label}</p>
-                          <p className="text-slate-900 text-2xl font-bold">{r.value}</p>
+                          <p className="text-slate-900 text-2xl font-bold font-mono">{r.value}</p>
                           {r.change && <p className="text-success text-xs font-semibold mt-0.5">{r.change}</p>}
                         </div>
                       ))}
                     </div>
                     <div className="p-4 bg-indigo-50 border border-indigo-200 rounded-md text-sm text-slate-700">
-                      Next payout: <span className="font-bold text-indigo-900">$1,860</span> on the 1st of next month. Minimum payout: $100.
+                      Next payout: <span className="font-bold text-indigo-900 font-mono">₹1,54,000</span> on the 1st of next month. Minimum payout: ₹8,000.
                     </div>
                   </div>
                 )}

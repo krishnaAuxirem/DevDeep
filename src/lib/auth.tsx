@@ -60,6 +60,7 @@ interface AuthContextValue {
   }) => { success: boolean; error?: string };
   logout: () => void;
   isEmailRegistered: (email: string) => boolean;
+  switchRole: (role: UserRole) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -74,6 +75,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const isEmailRegistered = (email: string): boolean => {
     const users = loadUsers();
     return users.some(u => u.email.toLowerCase() === email.toLowerCase());
+  };
+
+  const switchRole = (newRole: UserRole) => {
+    if (!user) return;
+    const updated = { ...user, role: newRole };
+    setUser(updated);
+    saveSession(updated);
+    const users = loadUsers();
+    const idx = users.findIndex(u => u.id === user.id);
+    if (idx !== -1) {
+      users[idx] = { ...users[idx], role: newRole };
+      saveUsers(users);
+    }
   };
 
   const register = (data: { email: string; password: string; name: string; role: UserRole }) => {
@@ -124,7 +138,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, register, logout, isEmailRegistered }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, register, logout, isEmailRegistered, switchRole }}>
       {children}
     </AuthContext.Provider>
   );
