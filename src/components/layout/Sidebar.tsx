@@ -4,9 +4,12 @@ import {
   Code2, Trophy, FlaskConical, FolderOpen, Boxes,
   Brain, GitPullRequest, ClipboardList, Award,
   User, Globe, Briefcase, Send, Target, Zap, ChevronRight,
-  Flame
+  Flame, Settings, LogOut
 } from "lucide-react";
 import { CURRENT_USER } from "@/constants/data";
+import { useAuth } from "@/lib/auth";
+import { ROLE_LABELS } from "@/types/auth";
+import { toast } from "sonner";
 
 interface NavItem {
   icon: React.ReactNode;
@@ -85,6 +88,16 @@ const NAV_SECTIONS: NavSection[] = [
 export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    toast.success("Signed out successfully.");
+    navigate("/");
+  };
+
+  const displayName = user?.name ?? CURRENT_USER.name;
+  const displayAvatar = user?.avatar ?? CURRENT_USER.avatar;
 
   const isActive = (path?: string) => {
     if (!path) return false;
@@ -107,11 +120,11 @@ export default function Sidebar() {
       <div className="px-3 py-3 border-b border-slate-100">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-full bg-indigo-900 flex items-center justify-center text-xs font-bold text-white shrink-0">
-            {CURRENT_USER.avatar}
+            {displayAvatar}
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-slate-900 truncate">{CURRENT_USER.name.split(" ")[0]}</p>
-            <p className="text-[11px] text-slate-500 font-mono">Lv.{CURRENT_USER.level} {CURRENT_USER.levelLabel}</p>
+            <p className="text-sm font-semibold text-slate-900 truncate">{displayName.split(" ")[0]}</p>
+            <p className="text-[11px] text-slate-500 font-mono truncate">{user?.role ? ROLE_LABELS[user.role] : `Lv.${CURRENT_USER.level} ${CURRENT_USER.levelLabel}`}</p>
           </div>
           <div className="ml-auto flex items-center gap-1 shrink-0">
             <Flame size={13} className="text-orange-500" />
@@ -157,6 +170,24 @@ export default function Sidebar() {
           </div>
         ))}
       </nav>
+
+      {/* Settings + Logout */}
+      <div className="px-2 pb-1 border-t border-slate-100 pt-2">
+        <button
+          onClick={() => navigate("/settings")}
+          className="sidebar-link w-full text-left"
+        >
+          <Settings size={15} className="shrink-0" />
+          <span className="flex-1">Settings & Security</span>
+        </button>
+        <button
+          onClick={handleLogout}
+          className="sidebar-link w-full text-left text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+        >
+          <LogOut size={15} className="shrink-0" />
+          <span className="flex-1">Sign Out</span>
+        </button>
+      </div>
 
       {/* Bottom upgrade nudge */}
       <div className="px-3 py-3 border-t border-slate-100">

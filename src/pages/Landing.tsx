@@ -101,10 +101,10 @@ export default function Landing() {
           </div>
           <div className="flex-1" />
           <div className="flex items-center gap-3">
-            <button onClick={() => navigate("/dashboard")} className="text-slate-500 hover:text-slate-900 text-sm font-medium px-3 py-1.5 transition-colors hidden md:block">
+            <button onClick={() => navigate("/login")} className="text-slate-500 hover:text-slate-900 text-sm font-medium px-3 py-1.5 transition-colors hidden md:block">
               Sign In
             </button>
-            <button onClick={() => navigate("/dashboard")} className="btn-primary text-sm py-2">
+            <button onClick={() => navigate("/register")} className="btn-primary text-sm py-2">
               Start Free <ChevronRight size={14} />
             </button>
             <button className="md:hidden btn-ghost p-2" onClick={() => setMobileMenuOpen(v => !v)}>
@@ -117,7 +117,7 @@ export default function Landing() {
             {["Learning Paths", "Challenges", "Code Review", "Pricing"].map(item => (
               <button key={item} className="block w-full text-left text-slate-700 text-sm py-2 hover:text-indigo-900 transition-colors">{item}</button>
             ))}
-            <button onClick={() => navigate("/dashboard")} className="block w-full text-left text-slate-700 text-sm py-2 hover:text-indigo-900 transition-colors">Sign In</button>
+            <button onClick={() => navigate("/login")} className="block w-full text-left text-slate-700 text-sm py-2 hover:text-indigo-900 transition-colors">Sign In</button>
           </div>
         )}
       </nav>
@@ -147,7 +147,7 @@ export default function Landing() {
               Master distributed systems, concurrency primitives, and production engineering with AI-powered code review, real sandbox benchmarks, and cryptographically verified credentials.
             </p>
             <div className="flex flex-wrap items-center gap-3 mb-10">
-              <button onClick={() => navigate("/dashboard")} className="btn-primary px-6 py-3 text-base">
+              <button onClick={() => navigate("/register")} className="btn-primary px-6 py-3 text-base">
                 <Play size={16} /> Start Learning Free
               </button>
               <button onClick={() => navigate("/challenge/c1")} className="btn-ghost px-6 py-3 text-base">
@@ -199,7 +199,7 @@ export default function Landing() {
               </div>
               {/* Card footer */}
               <div className="px-5 py-4 bg-slate-50 border-t border-slate-100 flex items-center gap-2">
-                <button onClick={() => navigate("/dashboard")} className="btn-primary text-xs py-1.5">
+                <button onClick={() => navigate("/register")} className="btn-primary text-xs py-1.5">
                   <Play size={12} /> Resume Sandbox
                 </button>
                 <button className="btn-ghost text-xs py-1.5">Open Editor</button>
@@ -386,7 +386,7 @@ export default function Landing() {
               </div>
               <p className="text-slate-500 text-sm mb-5 leading-relaxed">{plan.description}</p>
               <button
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/register")}
                 className={`w-full py-2.5 rounded-sm text-sm font-semibold mb-5 transition-all ${plan.highlighted ? "btn-primary justify-center" : "btn-ghost justify-center"}`}
               >
                 {plan.price === 0 ? "Start Free" : "Get Started"} →
@@ -436,7 +436,7 @@ export default function Landing() {
           <h2 className="text-slate-900 text-4xl font-bold tracking-tighter mb-4">Ready to reach Staff+?</h2>
           <p className="text-slate-500 text-lg mb-8 max-w-lg mx-auto">Join 38,000+ engineers building production-grade systems with AI-powered mentorship.</p>
           <div className="flex items-center justify-center gap-3 flex-wrap">
-            <button onClick={() => navigate("/dashboard")} className="btn-primary px-8 py-3 text-base">
+            <button onClick={() => navigate("/register")} className="btn-primary px-8 py-3 text-base">
               <Zap size={16} /> Start Free Today
             </button>
             <button onClick={() => navigate("/profile")} className="btn-ghost px-6 py-3 text-base">
