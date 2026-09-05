@@ -1,3 +1,6 @@
+import type { LucideIcon } from "lucide-react";
+import { Rocket, Zap, GraduationCap, Users, BookOpen, Building2, ShieldCheck } from "lucide-react";
+
 export type UserRole =
   | "beginner"
   | "professional"
@@ -27,14 +30,14 @@ export const ROLE_DESCRIPTIONS: Record<UserRole, string> = {
   admin: "Manage the entire platform — users, content, mentors, and analytics.",
 };
 
-export const ROLE_ICONS: Record<UserRole, string> = {
-  beginner: "🚀",
-  professional: "⚡",
-  student: "🎓",
-  mentor: "🧠",
-  instructor: "📚",
-  employer: "🏢",
-  admin: "🛡️",
+export const ROLE_ICONS: Record<UserRole, LucideIcon> = {
+  beginner: Rocket,
+  professional: Zap,
+  student: GraduationCap,
+  mentor: Users,
+  instructor: BookOpen,
+  employer: Building2,
+  admin: ShieldCheck,
 };
 
 export const DEVELOPER_ROLES: UserRole[] = ["beginner", "professional", "student"];
@@ -88,5 +91,23 @@ export const DEMO_ACCOUNTS: RegisteredUser[] = [
     avatar: "SR",
     password: "demo123",
     createdAt: "2024-03-05",
+  },
+  {
+    id: "demo-instructor-001",
+    email: "instructor@demo.com",
+    name: "Dr. Marcus Vance",
+    role: "instructor",
+    avatar: "MV",
+    password: "demo123",
+    createdAt: "2024-02-01",
+  },
+  {
+    id: "demo-student-001",
+    email: "student@demo.com",
+    name: "Elena Rostova",
+    role: "student",
+    avatar: "ER",
+    password: "demo123",
+    createdAt: "2024-03-01",
   },
 ];

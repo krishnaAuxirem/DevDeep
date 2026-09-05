@@ -40,12 +40,12 @@ function saveSession(user: AuthUser | null) {
 }
 
 export function getDashboardPath(role: UserRole): string {
-  if (DEVELOPER_ROLES.includes(role)) return "/dashboard";
-  if (role === "mentor") return "/mentor-dashboard";
-  if (role === "instructor") return "/instructor-dashboard";
-  if (role === "employer") return "/employer-dashboard";
-  if (role === "admin") return "/admin-dashboard";
-  return "/dashboard";
+  if (DEVELOPER_ROLES.includes(role)) return "/dashboard/developer";
+  if (role === "mentor") return "/dashboard/mentor";
+  if (role === "instructor") return "/dashboard/instructor";
+  if (role === "employer") return "/dashboard/employer";
+  if (role === "admin") return "/dashboard/admin";
+  return "/dashboard/developer";
 }
 
 interface AuthContextValue {

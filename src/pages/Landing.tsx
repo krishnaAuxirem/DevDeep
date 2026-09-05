@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { PRICING_PLANS, MENTORS, CHALLENGES, LEARNING_PATHS } from "@/constants/data";
 import heroImg from "@/assets/hero-bg.jpg";
-import heroProductImg from "@/assets/hero-product.jpg";
 import mentor1Img from "@/assets/mentor-1.jpg";
 import mentor2Img from "@/assets/mentor-2.jpg";
 import mentor3Img from "@/assets/mentor-3.jpg";
@@ -189,24 +188,28 @@ const WHY_CARDS = [
     title: "Deep Knowledge Model",
     desc: "AI that builds a persistent model of your skill gaps, learning velocity, and code patterns — not just a generic hint system.",
     link: "See AI Mentor →",
+    path: "/ai-mentor",
   },
   {
     icon: <Terminal size={24} className="text-indigo-400" />,
     title: "Live Sandboxes",
     desc: "Real Go 1.22 VMs with p99 latency telemetry, goroutine analysis, and zero-allocation benchmarks — in your browser.",
     link: "Try the IDE →",
+    path: "/coding-academy",
   },
   {
     icon: <Cpu size={24} className="text-purple-400" />,
     title: "AI Pair Architect",
     desc: "PR-diff code review with race hazard detection, auto-refactors, and architectural suggestions from a 40,000-LOC trained model.",
     link: "View Code Review →",
+    path: "/ai-mentor",
   },
   {
     icon: <Rocket size={24} className="text-amber-400" />,
     title: "Real Production Projects",
     desc: "Build distributed rate limiters, LSM-tree storage engines, and eBPF tracers — with cryptographically verified completion proofs.",
     link: "Explore Projects →",
+    path: "/projects",
   },
 ];
 
@@ -352,7 +355,7 @@ export default function Landing() {
       </div>
 
       {/* ── 2. HERO ───────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-slate-950 pt-14 pb-0">
+      <section className="relative overflow-hidden bg-slate-950 pt-14 pb-16">
         {/* Background layers */}
         <div className="absolute inset-0 pointer-events-none">
           <img src={heroImg} alt="" className="w-full h-full object-cover opacity-[0.07]" />
@@ -384,13 +387,13 @@ export default function Landing() {
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
               <button
-                onClick={() => navigate("/register")}
+                onClick={() => navigate("/learning-paths")}
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-base shadow-lg hover:shadow-indigo-500/30 transition-all active:scale-[0.98]"
               >
                 <Rocket size={16} /> Start Learning Free
               </button>
               <button
-                onClick={() => navigate("/challenge/c1")}
+                onClick={() => navigate("/coding-academy")}
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg bg-white/10 hover:bg-white/15 text-white border border-white/20 font-semibold text-base transition-all"
               >
                 <Play size={16} /> Explore Interactive Demo
@@ -484,13 +487,6 @@ export default function Landing() {
             ))}
           </div>
         </div>
-
-        {/* Hero product image teaser */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-10">
-          <div className="rounded-t-xl overflow-hidden border-x border-t border-white/10 shadow-2xl" style={{ maxHeight: 280, overflow: "hidden" }}>
-            <img src={heroProductImg} alt="DevDeep Platform Preview" className="w-full object-cover object-top" />
-          </div>
-        </div>
       </section>
 
       {/* ── 3. WHY DEVDEEP ────────────────────────────────────────────── */}
@@ -503,7 +499,7 @@ export default function Landing() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {WHY_CARDS.map((card, i) => (
-              <div key={i} className="group p-6 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer" onClick={() => navigate("/register")}>
+              <div key={i} className="group p-6 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer" onClick={() => navigate(card.path)}>
                 <div className="w-12 h-12 rounded-xl bg-slate-950 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   {card.icon}
                 </div>
@@ -526,7 +522,7 @@ export default function Landing() {
               <p className="text-indigo-600 text-xs font-bold uppercase tracking-widest mb-1 font-mono">Curriculum</p>
               <h2 className="text-slate-900 text-3xl font-bold tracking-tight">Structured Learning Paths</h2>
             </div>
-            <button onClick={() => navigate("/register")} className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-indigo-900 transition-colors">
+            <button onClick={() => navigate("/learning-paths")} className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-indigo-900 transition-colors">
               View all paths <ChevronRight size={14} />
             </button>
           </div>
@@ -550,7 +546,7 @@ export default function Landing() {
             {filteredPaths.map(path => (
               <div
                 key={path.id}
-                onClick={() => navigate("/register")}
+                onClick={() => navigate(`/courses/${path.id}`)}
                 className="group bg-white rounded-xl border border-slate-200 p-5 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer"
               >
                 <div className="flex items-center gap-2 mb-3 flex-wrap">
@@ -613,7 +609,7 @@ export default function Landing() {
                   <button onClick={() => toast.success("Code submitted! 32/32 tests passed · p99: 4.1ms")} className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-md text-xs font-semibold transition-colors">
                     Run Code
                   </button>
-                  <button onClick={() => { toast.success("Solution submitted!", { description: "Top 0.8% speed — 4.1ms p99 latency" }); navigate("/register"); }} className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-md text-xs font-semibold transition-colors">
+                  <button onClick={() => { toast.success("Opening Interactive IDE...", { description: "Launch full IDE with live benchmarks" }); navigate("/coding-academy"); }} className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-md text-xs font-semibold transition-colors">
                     Submit Solution
                   </button>
                 </div>
@@ -721,7 +717,7 @@ export default function Landing() {
                       <p>  <span className="text-purple-400">return</span> <span className="text-slate-500">// clean exit</span></p>
                       <p>{'}'}</p>
                     </div>
-                    <button onClick={() => { toast.success("Micro-lab generated!", { description: "Context-aware worker pool — 4 guided tasks" }); navigate("/register"); }} className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-700/40 border border-cyan-600/60 text-cyan-300 text-[10px] font-semibold hover:bg-cyan-700/60 transition-colors">
+                    <button onClick={() => { toast.success("Opening AI Mentor...", { description: "Context-aware worker pool — 4 guided tasks" }); navigate("/ai-mentor"); }} className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-700/40 border border-cyan-600/60 text-cyan-300 text-[10px] font-semibold hover:bg-cyan-700/60 transition-colors">
                       <Target size={10} /> Generate Micro-Lab on this Topic
                     </button>
                   </div>
@@ -768,7 +764,7 @@ export default function Landing() {
                 </div>
               </div>
 
-              <button onClick={() => navigate("/register")} className="w-full py-3 rounded-lg bg-indigo-900 hover:bg-indigo-800 text-white font-bold text-sm transition-colors">
+              <button onClick={() => navigate("/ai-mentor")} className="w-full py-3 rounded-lg bg-indigo-900 hover:bg-indigo-800 text-white font-bold text-sm transition-colors">
                 Start AI Diagnosis →
               </button>
             </div>
@@ -784,7 +780,7 @@ export default function Landing() {
               <p className="text-indigo-600 text-xs font-bold uppercase tracking-widest mb-1 font-mono">Practice</p>
               <h2 className="text-slate-900 text-3xl font-bold tracking-tight">Coding Challenges</h2>
             </div>
-            <button onClick={() => navigate("/register")} className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-indigo-900 transition-colors">
+            <button onClick={() => navigate("/challenges")} className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-indigo-900 transition-colors">
               All 420+ Challenges <ChevronRight size={14} />
             </button>
           </div>
@@ -794,7 +790,7 @@ export default function Landing() {
               { title: "Concurrent Worker Pool", difficulty: "Medium", points: 150, tags: ["Go", "Goroutines", "Context"], acceptance: 41, desc: "Build a bounded goroutine pool with graceful shutdown on context cancellation." },
               { title: "Distributed Rate Limiter", difficulty: "Hard", points: 300, tags: ["Redis", "Token Bucket", "Distributed"], acceptance: 12, desc: "Implement sliding window + token bucket with Redis Cluster and atomic operations." },
             ].map((c, i) => (
-              <div key={i} className="bg-white rounded-xl border border-slate-200 p-5 hover:border-indigo-300 hover:shadow-md transition-all group cursor-pointer" onClick={() => navigate("/register")}>
+              <div key={i} className="bg-white rounded-xl border border-slate-200 p-5 hover:border-indigo-300 hover:shadow-md transition-all group cursor-pointer" onClick={() => navigate("/challenges")}>
                 <div className="flex items-center justify-between mb-3">
                   <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
                     c.difficulty === "Easy" ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
@@ -830,7 +826,7 @@ export default function Landing() {
           </div>
           <div className="grid sm:grid-cols-3 gap-5">
             {PROJECT_LABS.map(lab => (
-              <div key={lab.id} className="rounded-xl border border-slate-200 bg-white overflow-hidden hover:border-indigo-300 hover:shadow-md transition-all group cursor-pointer" onClick={() => navigate("/register")}>
+              <div key={lab.id} className="rounded-xl border border-slate-200 bg-white overflow-hidden hover:border-indigo-300 hover:shadow-md transition-all group cursor-pointer" onClick={() => navigate("/projects")}>
                 <div className={`px-5 pt-5 pb-4 border-b border-slate-100 ${lab.verified ? "bg-gradient-to-br from-indigo-50 to-white" : ""}`}>
                   <div className="flex items-center gap-2 mb-2">
                     <span className={`px-2 py-0.5 rounded text-[10px] font-bold border font-mono ${
@@ -898,10 +894,11 @@ export default function Landing() {
                   <div className="bg-rose-900/30 px-2 py-1 rounded border border-rose-700/50 mb-1">
                     <span className="text-rose-400">- </span><span className="text-white">go func() {'{'} counter++ {'}'}</span>
                   </div>
-                  <p className="text-slate-400">// ⚠ DATA RACE: unsynchronized</p>
-                  <p className="text-slate-400">// ⚠ concurrent write to counter</p>
-                  <div className="mt-2 p-2 rounded bg-rose-900/20 border border-rose-800/40 text-rose-300 text-[10px]">
-                    🔴 Race Condition Detected — CRITICAL
+                  <p className="text-slate-400">// DATA RACE: unsynchronized</p>
+                  <p className="text-slate-400">// concurrent write to counter</p>
+                  <div className="mt-2 p-2 rounded bg-rose-900/20 border border-rose-800/40 text-rose-300 text-[10px] flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse shrink-0" />
+                    Race Condition Detected — CRITICAL
                   </div>
                 </div>
               </div>
@@ -913,10 +910,11 @@ export default function Landing() {
                   <div className="bg-emerald-900/30 px-2 py-1 rounded border border-emerald-700/50 mb-1">
                     <span className="text-emerald-400">+ </span><span className="text-white">atomic.AddInt64(&counter, 1)</span>
                   </div>
-                  <p className="text-slate-400">// ✓ Lock-free atomic operation</p>
-                  <p className="text-slate-400">// ✓ 0 allocs · race-free</p>
-                  <div className="mt-2 p-2 rounded bg-emerald-900/20 border border-emerald-800/40 text-emerald-300 text-[10px]">
-                    ✅ All Checks Passed — SECURE
+                  <p className="text-slate-400">// Lock-free atomic operation</p>
+                  <p className="text-slate-400">// 0 allocs · race-free</p>
+                  <div className="mt-2 p-2 rounded bg-emerald-900/20 border border-emerald-800/40 text-emerald-300 text-[10px] flex items-center gap-1.5">
+                    <CheckCircle2 size={12} className="text-emerald-400 shrink-0" />
+                    All Checks Passed — SECURE
                   </div>
                 </div>
               </div>
@@ -952,7 +950,9 @@ export default function Landing() {
                   <p className="text-slate-900 font-bold">Contribution Activity</p>
                   <p className="text-slate-400 text-xs mt-0.5">1,842 verified contributions this year</p>
                 </div>
-                <span className="text-indigo-600 font-mono font-bold text-sm">84d streak 🔥</span>
+                <span className="text-indigo-600 font-mono font-bold text-sm inline-flex items-center gap-1">
+                  84d streak <Flame size={14} className="text-indigo-600" />
+                </span>
               </div>
               <ActivityHeatmap />
               <div className="flex items-center justify-between mt-3 text-xs text-slate-400">
@@ -986,7 +986,7 @@ export default function Landing() {
                   </div>
                 ))}
               </div>
-              <button onClick={() => navigate("/register")} className="w-full mt-5 py-2.5 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-700 font-semibold text-sm hover:bg-indigo-100 transition-colors">
+              <button onClick={() => navigate("/ai-mentor")} className="w-full mt-5 py-2.5 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-700 font-semibold text-sm hover:bg-indigo-100 transition-colors">
                 Run Full Skill Diagnostic →
               </button>
             </div>
@@ -1036,7 +1036,7 @@ export default function Landing() {
                     )}
                   </div>
                   <button
-                    onClick={() => { toast.success(`Booking with ${m.name}`, { description: "Navigating to mentor scheduling..." }); navigate("/register"); }}
+                    onClick={() => { toast.success(`Viewing mentor profile for ${m.name}`); navigate("/mentors"); }}
                     className={`w-full py-2.5 rounded-lg text-sm font-bold transition-colors ${m.available ? "bg-indigo-900 hover:bg-indigo-800 text-white" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`}
                   >
                     {m.available ? "Book 1:1 Review →" : "Join Waitlist →"}
@@ -1057,13 +1057,13 @@ export default function Landing() {
               <h2 className="text-slate-900 text-3xl font-bold tracking-tight">Matched Opportunities</h2>
               <p className="text-slate-500 text-sm mt-1">Roles matched to your verified skill matrix · Updated daily</p>
             </div>
-            <button onClick={() => navigate("/register")} className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-indigo-900 transition-colors">
+            <button onClick={() => navigate("/jobs")} className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-indigo-900 transition-colors">
               Browse all jobs <ChevronRight size={14} />
             </button>
           </div>
           <div className="grid sm:grid-cols-3 gap-4">
             {JOB_CARDS.map((job, i) => (
-              <div key={i} className="bg-white rounded-xl border border-slate-200 p-5 hover:border-indigo-300 hover:shadow-md transition-all group cursor-pointer" onClick={() => navigate("/register")}>
+              <div key={i} className="bg-white rounded-xl border border-slate-200 p-5 hover:border-indigo-300 hover:shadow-md transition-all group cursor-pointer" onClick={() => navigate("/jobs")}>
                 <div className="flex items-start justify-between mb-3">
                   <div className="w-10 h-10 rounded-lg bg-indigo-50 border border-indigo-200 flex items-center justify-center">
                     <Building2 size={18} className="text-indigo-600" />
@@ -1083,7 +1083,10 @@ export default function Landing() {
                 <div className="flex flex-wrap gap-1 mb-4">
                   {job.tags.map(t => <span key={t} className="px-2 py-0.5 rounded text-[10px] bg-slate-100 text-slate-600 border border-slate-200 font-mono">{t}</span>)}
                 </div>
-                <button className="w-full py-2 rounded-lg bg-indigo-900 hover:bg-indigo-800 text-white text-xs font-bold transition-colors">
+                <button
+                  onClick={(e) => { e.stopPropagation(); navigate("/jobs"); }}
+                  className="w-full py-2 rounded-lg bg-indigo-900 hover:bg-indigo-800 text-white text-xs font-bold transition-colors"
+                >
                   Apply Now →
                 </button>
               </div>

@@ -12,9 +12,9 @@ export default function Footer() {
     {
       title: "Product",
       links: [
-        { label: "Learning Paths", path: "/learning" },
-        { label: "Interactive IDE", path: "/challenge/c1" },
-        { label: "AI Mentor", path: "/mentor" },
+        { label: "Learning Paths", path: "/learning-paths" },
+        { label: "Interactive IDE", path: "/coding-academy" },
+        { label: "AI Mentor", path: "/ai-mentor" },
         { label: "Projects", path: "/projects" },
         { label: "Pricing", path: "/pricing" },
       ],
@@ -22,11 +22,11 @@ export default function Footer() {
     {
       title: "Community",
       links: [
-        { label: "Discussions", path: "/community" },
-        { label: "Groups", path: "/study-groups" },
-        { label: "Project Showcase", path: "/showcase" },
-        { label: "Hackathons", path: "/hackathons" },
-        { label: "Events", path: "/events" },
+        { label: "Discussions", path: "/community/discussions" },
+        { label: "Groups", path: "/community/groups" },
+        { label: "Project Showcase", path: "/community/showcase" },
+        { label: "Hackathons", path: "/community/hackathons" },
+        { label: "Events", path: "/community/events" },
       ],
     },
     {
@@ -43,10 +43,10 @@ export default function Footer() {
       title: "Resources",
       links: [
         { label: "Documentation", path: "/documentation" },
-        { label: "System Architecture Guides", path: "/system-architecture" },
+        { label: "System Architecture Guides", path: "/resources/system-architecture" },
         { label: "Blog", path: "/blog" },
         { label: "Open Source", path: "/open-source" },
-        { label: "API Reference", path: "/api" },
+        { label: "API Reference", path: "/api-reference" },
       ],
     },
     {
@@ -116,7 +116,7 @@ export default function Footer() {
           <div className="pt-8 border-t border-slate-800/80 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
             {/* Copyright & Tagline */}
             <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-center md:text-left">
-              <span>© {new Date().getFullYear()} DevDeep Inc. All rights reserved.</span>
+              <span>&copy; {new Date().getFullYear()} DevDeep Inc. All rights reserved.</span>
               <span className="hidden sm:inline text-slate-600">•</span>
               <span className="text-slate-300 font-medium">Engineered for deep work.</span>
             </div>

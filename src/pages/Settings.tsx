@@ -67,7 +67,14 @@ export default function Settings() {
                       <p className="text-slate-900 font-semibold">{user?.name}</p>
                       <p className="text-slate-500 text-sm">{user?.email}</p>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-lg">{user?.role ? ROLE_ICONS[user.role] : ""}</span>
+                        {user?.role && (() => {
+                          const RoleIcon = ROLE_ICONS[user.role];
+                          return (
+                            <span className="w-5 h-5 rounded bg-indigo-50 text-indigo-700 flex items-center justify-center">
+                              <RoleIcon size={12} />
+                            </span>
+                          );
+                        })()}
                         <span className="dd-chip-indigo text-[10px]">{user?.role ? ROLE_LABELS[user.role] : ""}</span>
                       </div>
                     </div>

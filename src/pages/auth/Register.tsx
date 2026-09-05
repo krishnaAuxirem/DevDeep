@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Eye, EyeOff, Zap, CheckCircle2, ArrowRight, Chrome } from "lucide-react";
+import { Eye, EyeOff, Zap, CheckCircle2, ArrowRight, Chrome, Check } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { ROLE_LABELS, ROLE_DESCRIPTIONS, ROLE_ICONS, type UserRole } from "@/types/auth";
 import { toast } from "sonner";
@@ -65,12 +65,12 @@ export default function Register() {
           <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-indigo-950 rounded-full opacity-50" />
         </div>
         <div className="relative">
-          <div className="flex items-center gap-2.5 mb-12">
-            <div className="w-9 h-9 rounded-md bg-white/10 flex items-center justify-center">
+          <Link to="/" className="inline-flex items-center gap-2.5 mb-12 group" title="DevDeep Home">
+            <div className="w-9 h-9 rounded-md bg-white/10 flex items-center justify-center group-hover:scale-105 transition-transform">
               <Zap size={18} className="text-white" />
             </div>
             <span className="text-white font-bold text-xl tracking-tight">DevDeep</span>
-          </div>
+          </Link>
           <h2 className="text-white text-3xl font-bold leading-tight mb-4">
             Your engineering career<br />starts here.
           </h2>
@@ -80,15 +80,15 @@ export default function Register() {
         </div>
         <div className="relative space-y-3">
           {[
-            { label: "Verified skill profiles trusted by top companies", icon: "✓" },
-            { label: "AI-powered mentor & code review engine", icon: "✓" },
-            { label: "Real-world challenges aligned to production standards", icon: "✓" },
-          ].map(item => (
-            <div key={item.label} className="flex items-center gap-3">
+            "Verified skill profiles trusted by top companies",
+            "AI-powered mentor & code review engine",
+            "Real-world challenges aligned to production standards",
+          ].map(label => (
+            <div key={label} className="flex items-center gap-3">
               <div className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center text-white text-xs font-bold shrink-0">
-                {item.icon}
+                <Check size={13} className="text-white" />
               </div>
-              <p className="text-indigo-100 text-sm">{item.label}</p>
+              <p className="text-indigo-100 text-sm">{label}</p>
             </div>
           ))}
         </div>
@@ -98,12 +98,12 @@ export default function Register() {
       <div className="flex-1 flex items-center justify-center p-6 overflow-y-auto">
         <div className="w-full max-w-lg">
           {/* Mobile Logo */}
-          <div className="flex items-center gap-2 mb-8 lg:hidden">
-            <div className="w-8 h-8 rounded-md bg-indigo-900 flex items-center justify-center">
+          <Link to="/" className="flex items-center gap-2 mb-8 lg:hidden group" title="DevDeep Home">
+            <div className="w-8 h-8 rounded-md bg-indigo-900 flex items-center justify-center group-hover:scale-105 transition-transform">
               <Zap size={15} className="text-white" />
             </div>
             <span className="text-indigo-900 font-bold text-lg">DevDeep</span>
-          </div>
+          </Link>
 
           {/* Step indicator */}
           <div className="flex items-center gap-3 mb-8">
@@ -208,30 +208,39 @@ export default function Register() {
               <p className="text-slate-500 text-sm mb-6">Your role shapes your dashboard, curriculum, and platform experience.</p>
 
               <div className="grid grid-cols-1 gap-2.5 mb-6">
-                {ROLES.map(role => (
-                  <button
-                    key={role}
-                    onClick={() => setSelectedRole(role)}
-                    className={`flex items-start gap-3.5 p-4 rounded-md border text-left transition-all ${
-                      selectedRole === role
-                        ? "border-indigo-900 bg-indigo-50 shadow-sm"
-                        : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50"
-                    }`}
-                  >
-                    <span className="text-2xl leading-none mt-0.5">{ROLE_ICONS[role]}</span>
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-semibold ${selectedRole === role ? "text-indigo-900" : "text-slate-900"}`}>
-                        {ROLE_LABELS[role]}
-                      </p>
-                      <p className="text-slate-500 text-xs mt-0.5 leading-relaxed">{ROLE_DESCRIPTIONS[role]}</p>
-                    </div>
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
-                      selectedRole === role ? "border-indigo-900 bg-indigo-900" : "border-slate-300"
-                    }`}>
-                      {selectedRole === role && <div className="w-2 h-2 rounded-full bg-white" />}
-                    </div>
-                  </button>
-                ))}
+                {ROLES.map(role => {
+                  const RoleIcon = ROLE_ICONS[role];
+                  return (
+                    <button
+                      key={role}
+                      onClick={() => setSelectedRole(role)}
+                      className={`flex items-start gap-3.5 p-4 rounded-md border text-left transition-all ${
+                        selectedRole === role
+                          ? "border-indigo-900 bg-indigo-50 shadow-sm"
+                          : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50"
+                      }`}
+                    >
+                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
+                        selectedRole === role
+                          ? "bg-indigo-900 text-white"
+                          : "bg-slate-100 text-slate-600"
+                      }`}>
+                        <RoleIcon size={18} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-sm font-semibold ${selectedRole === role ? "text-indigo-900" : "text-slate-900"}`}>
+                          {ROLE_LABELS[role]}
+                        </p>
+                        <p className="text-slate-500 text-xs mt-0.5 leading-relaxed">{ROLE_DESCRIPTIONS[role]}</p>
+                      </div>
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
+                        selectedRole === role ? "border-indigo-900 bg-indigo-900" : "border-slate-300"
+                      }`}>
+                        {selectedRole === role && <div className="w-2 h-2 rounded-full bg-white" />}
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
 
               <div className="flex gap-3">

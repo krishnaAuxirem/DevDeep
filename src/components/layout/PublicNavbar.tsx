@@ -1,30 +1,32 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Search, Menu, X, ArrowRight, Zap, Sparkles } from "lucide-react";
+import { Search, Menu, X, ArrowRight, Zap, Sparkles, LayoutDashboard } from "lucide-react";
 import CommandSearch from "./CommandSearch";
+import { useAuth, getDashboardPath } from "@/lib/auth";
 
 export default function PublicNavbar() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
   const pathname = location.pathname.toLowerCase();
 
   const NAV_ITEMS = [
-    { label: "Learning", path: "/learning", matchPrefix: ["/learning", "/courses"] },
-    { label: "Practice", path: "/challenges", matchPrefix: ["/challenges", "/challenge", "/practice"] },
-    { label: "Projects", path: "/projects", matchPrefix: ["/projects", "/project"] },
+    { label: "Learning", path: "/learning-paths", matchPrefix: ["/learning-paths", "/courses"] },
+    { label: "Practice", path: "/coding-academy", matchPrefix: ["/coding-academy", "/challenges"] },
+    { label: "Projects", path: "/projects", matchPrefix: ["/projects"] },
     {
       label: "AI Mentor",
-      path: "/mentor",
-      matchPrefix: ["/mentor", "/code-review", "/ai-mentor"],
+      path: "/ai-mentor",
+      matchPrefix: ["/ai-mentor"],
       chip: "v3.8",
       isAI: true,
     },
-    { label: "Mentors", path: "/mentors", matchPrefix: ["/mentors", "/mentor-dashboard"] },
-    { label: "Community", path: "/community", matchPrefix: ["/community", "/discussions", "/study-groups"] },
-    { label: "Career", path: "/jobs", matchPrefix: ["/jobs", "/career", "/careers"] },
+    { label: "Mentors", path: "/mentors", matchPrefix: ["/mentors"] },
+    { label: "Community", path: "/community", matchPrefix: ["/community"] },
+    { label: "Career", path: "/jobs", matchPrefix: ["/jobs", "/internships", "/freelance", "/companies"] },
     { label: "Pricing", path: "/pricing", matchPrefix: ["/pricing"] },
   ];
 
@@ -102,22 +104,35 @@ export default function PublicNavbar() {
               </kbd>
             </button>
 
-            {/* Log In */}
-            <Link
-              to="/login"
-              className="hidden sm:inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors"
-            >
-              Log In
-            </Link>
-
-            {/* Start Learning Free (Primary CTA) */}
-            <Link
-              to="/register"
-              className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-md bg-indigo-900 text-white hover:bg-indigo-950 text-sm font-semibold shadow-xs hover:shadow-sm transition-all active:scale-[0.99]"
-            >
-              <span>Start Learning Free</span>
-              <ArrowRight size={14} className="hidden sm:inline" />
-            </Link>
+            {/* Auth Cluster */}
+            {isAuthenticated && user ? (
+              <Link
+                to={getDashboardPath(user.role)}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-indigo-900 text-white hover:bg-indigo-950 text-xs font-semibold shadow-xs transition-all"
+              >
+                <div className="w-5 h-5 rounded-full bg-indigo-700 text-white text-[10px] font-bold flex items-center justify-center">
+                  {user.avatar || user.name.slice(0, 2).toUpperCase()}
+                </div>
+                <span>Dashboard</span>
+                <LayoutDashboard size={13} />
+              </Link>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="hidden sm:inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+                >
+                  Log In
+                </Link>
+                <Link
+                  to="/register"
+                  className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-md bg-indigo-900 text-white hover:bg-indigo-950 text-sm font-semibold shadow-xs hover:shadow-sm transition-all active:scale-[0.99]"
+                >
+                  <span>Start Learning Free</span>
+                  <ArrowRight size={14} className="hidden sm:inline" />
+                </Link>
+              </>
+            )}
 
             {/* Mobile Hamburger Button */}
             <button
@@ -175,20 +190,33 @@ export default function PublicNavbar() {
 
             {/* Mobile Auth Buttons */}
             <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
-              <Link
-                to="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-2.5 text-center text-sm font-semibold text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
-              >
-                Log In to Existing Account
-              </Link>
-              <Link
-                to="/register"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-2.5 text-center text-sm font-semibold text-white bg-indigo-900 hover:bg-indigo-950 rounded-lg shadow-sm transition-colors"
-              >
-                Start Learning Free →
-              </Link>
+              {isAuthenticated && user ? (
+                <Link
+                  to={getDashboardPath(user.role)}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full py-2.5 text-center text-sm font-semibold text-white bg-indigo-900 hover:bg-indigo-950 rounded-lg shadow-sm transition-colors flex items-center justify-center gap-2"
+                >
+                  <LayoutDashboard size={15} />
+                  <span>Go to Your Dashboard</span>
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full py-2.5 text-center text-sm font-semibold text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+                  >
+                    Log In to Existing Account
+                  </Link>
+                  <Link
+                    to="/register"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full py-2.5 text-center text-sm font-semibold text-white bg-indigo-900 hover:bg-indigo-950 rounded-lg shadow-sm transition-colors"
+                  >
+                    Start Learning Free →
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         )}

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   Search, Bell, Flame, Zap, Check, CheckCheck,
   User, Settings, LogOut, ShieldCheck, Sparkles,
-  ChevronDown, ExternalLink, RefreshCw
+  ChevronDown, ExternalLink, RefreshCw, Eye
 } from "lucide-react";
 import { CURRENT_USER } from "@/constants/data";
 import { useAuth, getDashboardPath } from "@/lib/auth";
@@ -132,11 +132,37 @@ export default function TopNav({ showSearch = true }: TopNavProps) {
   const displayAvatar = user?.avatar ?? CURRENT_USER.avatar;
   const currentRole = user?.role ?? "professional";
 
+  const adminPreviewData = typeof window !== "undefined" ? sessionStorage.getItem("devdeep_admin_preview") : null;
+  const adminPreview = adminPreviewData ? JSON.parse(adminPreviewData) : null;
+
+  const handleExitPreview = () => {
+    sessionStorage.removeItem("devdeep_admin_preview");
+    switchRole("admin");
+    toast.success("Exited preview mode. Returned to Admin Control Panel.");
+    navigate("/admin-dashboard");
+  };
+
   return (
     <>
+      {adminPreview && (
+        <div className="bg-amber-600 text-white text-xs font-semibold px-4 py-2 flex items-center justify-between z-40 sticky top-0 shadow-sm">
+          <div className="flex items-center gap-2">
+            <Eye size={14} className="animate-pulse shrink-0" />
+            <span>
+              Viewing as <strong>{adminPreview.userName}</strong> ({ROLE_LABELS[adminPreview.role as UserRole] || adminPreview.role}) — Read-Only Admin Preview Mode
+            </span>
+          </div>
+          <button
+            onClick={handleExitPreview}
+            className="bg-amber-900 hover:bg-amber-950 text-white px-3 py-1 rounded text-xs font-bold transition-all shadow-xs"
+          >
+            Exit Preview & Return to Admin
+          </button>
+        </div>
+      )}
       <header className="h-16 bg-white/90 backdrop-blur-xl border-b border-slate-200 flex items-center px-4 sm:px-6 gap-3 shrink-0 z-30 sticky top-0 transition-all shadow-2xs">
         {/* Logo */}
-        <Link to="/dashboard" className="flex items-center gap-2.5 shrink-0 group focus:outline-none mr-2">
+        <Link to="/" className="flex items-center gap-2.5 shrink-0 group focus:outline-none mr-2" title="Go to DevDeep Home">
           <img
             src="https://lh3.googleusercontent.com/aida/AEtjO1XQfxUn56ONqpIjvIQrr1hWXoabnxBi-eW8T1lhgF-Th5Qbl5yxD5GIwvXSv_9PKHGIJmIC4CG7OZqGxCCMaq95UcOJZ8rrBEcGQkhrdUDaXIBHvTGOLlR6uORTQyJQ47iifBSq25W7Gt0paxl4NsukFUVHmewsCN187ywLUmuNDlLLs_iiv_K3Le7z5bXDIzoUrzbDaCEvkKwnE3uDFkCz2PrLDg7Lc87Loc6_V31kP1AU13wlv48fTA"
             alt="DevDeep Logo"
@@ -180,7 +206,7 @@ export default function TopNav({ showSearch = true }: TopNavProps) {
 
         {/* Right Section: Streak, AI Chip, Notifications, Avatar */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          {/* Streak Indicator (🔥 Nd) */}
+          {/* Streak Indicator */}
           <div className="relative" ref={streakRef}>
             <button
               onClick={() => setStreakOpen(!streakOpen)}

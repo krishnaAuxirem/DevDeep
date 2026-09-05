@@ -10,7 +10,9 @@ import Sidebar from "@/components/layout/Sidebar";
 import TopNav from "@/components/layout/TopNav";
 import ActivityHeatmap from "@/components/features/ActivityHeatmap";
 import CircularGauge from "@/components/features/CircularGauge";
+import LiveActivityStream from "@/components/features/LiveActivityStream";
 import { CURRENT_USER, GOALS, ACTIVITY_FEED, SKILL_MATRIX, MENTORS } from "@/constants/data";
+import { toast } from "sonner";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -33,7 +35,7 @@ export default function Dashboard() {
               <div className="flex items-center justify-between">
                 <div>
                   <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5 mb-0.5">
-                    Good morning, {CURRENT_USER.name.split(" ")[0]} 👋
+                    Good morning, {CURRENT_USER.name.split(" ")[0]}
                     <span className="dd-chip text-[10px] font-mono bg-emerald-50 text-emerald-700 border border-emerald-200">#SYS_ONLINE</span>
                   </h1>
                   <p className="text-slate-500 text-sm">
@@ -202,6 +204,9 @@ export default function Dashboard() {
                 <ActivityHeatmap />
               </div>
 
+              {/* Live Activity Telemetry Stream */}
+              <LiveActivityStream maxItems={3} />
+
               {/* Diagnostic Feed */}
               <div className="dd-card p-5">
                 <div className="flex items-center justify-between mb-4">
@@ -209,7 +214,9 @@ export default function Dashboard() {
                     <Activity size={16} className="text-ai" />
                     <h3 className="text-slate-900 font-bold">Diagnostic & Activity Stream</h3>
                   </div>
-                  <button className="text-eblue-600 text-xs hover:text-eblue-700 transition-colors">Full Execution Log →</button>
+                  <button onClick={() => navigate("/analytics")} className="text-eblue-600 text-xs hover:text-eblue-700 transition-colors">
+                    Full Execution Log →
+                  </button>
                 </div>
                 <div className="space-y-0 divide-y divide-slate-100">
                   {ACTIVITY_FEED.map(item => (
@@ -251,7 +258,7 @@ export default function Dashboard() {
                   <CircularGauge value={CURRENT_USER.marketReadiness} size={96} color="#312E81" trackColor="#E0E7FF" />
                 </div>
                 <div className="text-center mb-4">
-                  <p className="text-slate-900 font-bold text-xl">{CURRENT_USER.marketReadiness}</p>
+                  <p className="text-slate-900 font-bold text-xl">{CURRENT_USER.marketReadiness}%</p>
                   <p className="text-slate-500 text-xs">Market Index Match</p>
                   <p className="text-slate-600 text-xs mt-1">Exceeds criteria for Staff & Principal benchmarks.</p>
                 </div>
@@ -296,7 +303,13 @@ export default function Dashboard() {
                   </div>
                   <p className="text-slate-600 text-xs leading-relaxed">Repeated deadlock patterns in your Go mutex lock hierarchy during the Raft vote loop. Generated a targeted 10-minute micro-lab on <span className="text-ai-dark font-medium">sync.RWMutex vs Channel Fan-Out</span>.</p>
                 </div>
-                <button className="btn-ai w-full justify-center text-xs">
+                <button
+                  onClick={() => {
+                    toast.success("Launching 10-minute Micro-Lab: sync.RWMutex vs Channel Fan-Out.");
+                    navigate("/challenge/c1");
+                  }}
+                  className="btn-ai w-full justify-center text-xs"
+                >
                   <Sparkles size={13} /> Start Micro-Lab (10 min)
                 </button>
 
@@ -309,7 +322,11 @@ export default function Dashboard() {
                     { type: "MICRO-COURSE", title: "eBPF Performance Tracing in Linux", tags: "Staff Level · 2.5 Hours" },
                     { type: "PROJECT", title: "Edge AI Inference Gateway with SSE", tags: "Cloud & Concurrency · 4 Modules" },
                   ].map((item, i) => (
-                    <div key={i} className="mb-2 p-2.5 bg-slate-50 rounded-md border border-slate-200">
+                    <div
+                      key={i}
+                      onClick={() => navigate("/learning")}
+                      className="mb-2 p-2.5 bg-slate-50 rounded-md border border-slate-200 cursor-pointer hover:border-indigo-300 transition-colors"
+                    >
                       <div className="flex items-center gap-1.5 mb-1">
                         <span className="text-[9px] font-bold text-ai-dark uppercase tracking-wider">{item.type}</span>
                       </div>
@@ -348,8 +365,21 @@ export default function Dashboard() {
                       <p className="text-slate-400 text-[10px]">Agenda: Raft consensus formal verification & distributed transactional commit benchmarks.</p>
                     </div>
                     <div className="flex gap-2">
-                      <button className="btn-ghost flex-1 text-xs justify-center">Add Calendar</button>
-                      <button className="btn-primary flex-1 text-xs justify-center">Prep Session</button>
+                      <button
+                        onClick={() => toast.success("Added mentor session to calendar.")}
+                        className="btn-ghost flex-1 text-xs justify-center"
+                      >
+                        Add Calendar
+                      </button>
+                      <button
+                        onClick={() => {
+                          toast.success("Opening preparation questions & architectural agenda...");
+                          navigate("/mentors");
+                        }}
+                        className="btn-primary flex-1 text-xs justify-center"
+                      >
+                        Prep Session
+                      </button>
                     </div>
                   </div>
                 ))}

@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Zap, ArrowRight, CheckCircle2, Shield,
   BookOpen, Code2, Users, Calendar, Briefcase,
-  Search, ExternalLink, Sparkles, Terminal, FileText
+  Search, ExternalLink, Sparkles, Terminal, FileText,
+  Star
 } from "lucide-react";
 import PublicNavbar from "@/components/layout/PublicNavbar";
 import Footer from "@/components/layout/Footer";
@@ -27,18 +28,34 @@ interface PublicContentProps {
     | "generic";
 }
 
+import JobsPage from "@/pages/public/JobsPage";
+
+import { useAuth } from "@/lib/auth";
+
 export default function PublicContentPage({ pageType }: PublicContentProps) {
   const location = useLocation();
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [isYearly, setIsYearly] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const path = location.pathname.replace(/^\//, "");
   const activeType = pageType || (path as any) || "generic";
 
+  if (activeType === "jobs" || path === "jobs" || path === "career" || path === "careers" || path === "companies") {
+    return <JobsPage />;
+  }
+
   const handleAction = (label: string, route?: string) => {
     if (route) {
       navigate(route);
+      return;
+    }
+    if (!isAuthenticated) {
+      toast.error("Authentication required", {
+        description: `Please log in to ${label.toLowerCase()}.`,
+      });
+      navigate("/login");
       return;
     }
     toast.info(`${label}`, {
@@ -286,7 +303,9 @@ export default function PublicContentPage({ pageType }: PublicContentProps) {
                       ))}
                     </div>
                     <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs text-slate-500">
-                      <span className="text-amber-600 font-semibold">★ 4.98 (120+ reviews)</span>
+                      <span className="text-amber-600 font-semibold inline-flex items-center gap-1">
+                        <Star size={12} className="fill-amber-500 text-amber-500" /> 4.98 (120+ reviews)
+                      </span>
                       <span>Bengaluru / Remote</span>
                     </div>
                   </div>
